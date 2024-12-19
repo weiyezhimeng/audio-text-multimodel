@@ -22,7 +22,7 @@ class multi_model(nn.Module):
         self.whisper_encoder = model_whisper_encoder
         
         # 加入卷积层来缩小维度
-        self.conv = nn.Conv1d(in_channels=1280, out_channels=1280, kernel_size=25, stride=25)
+        self.conv = nn.Conv1d(in_channels=1280, out_channels=1280, kernel_size=50, stride=50)
         
         # 用于进一步处理特征的全连接层
         self.projecter = nn.Sequential(
