@@ -1,7 +1,9 @@
 # 语音分析课程大作业2024秋
 ## 概述
-我们结合了[openai/whisper-large-v3-turbo](https://huggingface.co/openai/whisper-large-v3-turbo)模型和[meta-llama/Llama-2-7b-chat-hf](https://huggingface.co/meta-llama/Llama-2-7b-chat-hf)模型，完成了一个简单的语音文本多模态大模型的训练，由于训练数据和显卡的限制，该仓库仅作示范。
+该仓库前半部分为whisper做asr后输入LLM的结果。后半部分结合[openai/whisper-large-v3-turbo](https://huggingface.co/openai/whisper-large-v3-turbo)模型和[meta-llama/Llama-2-7b-chat-hf](https://huggingface.co/meta-llama/Llama-2-7b-chat-hf)模型，完成一个简单的语音文本多模态大模型的训练，由于训练数据和显卡的限制，后半部分仅作示范。
+# Part1
 
+# Part2
 ## 环境配置
 ```bash
 conda create -n multi python=3.10
