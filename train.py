@@ -4,7 +4,6 @@ import torch
 import torch.nn as nn
 from load_data import load_data
 import json
-import numpy as np
 import librosa
 import gc
 import math
@@ -87,10 +86,10 @@ def save_model(model_final, model_lora, save_dir):
     torch.save(trainable_state_dict, model_state_path)
     print(f"Trainable parts of multi_model saved to {model_state_path}")
 
-if __name__ == "__main__":
+def train(args):
     # 加载模型和相对应的tokenizer
-    device = "cuda:0"
-    path_llama = "Llama-2-7b-chat-hf"
+    device = args.device
+    path_llama = args.llama_path
     model_llama = AutoModelForCausalLM.from_pretrained(path_llama, torch_dtype=torch.float16).to(device)
     llama_embedding = model_llama.get_input_embeddings()
     for name, param in llama_embedding.named_parameters():
@@ -99,7 +98,7 @@ if __name__ == "__main__":
     tokenizer_llama = AutoTokenizer.from_pretrained(path_llama, padding_side='right')
     tokenizer_llama.pad_token = tokenizer_llama.unk_token
 
-    path_whisper = "whisper-large-v3-turbo"
+    path_whisper = args.whisper_path
     model_whisper_encoder = AutoModelForSpeechSeq2Seq.from_pretrained(
         path_whisper, torch_dtype=torch.float16, low_cpu_mem_usage=True, use_safetensors=True
     ).model.encoder.to(device)
@@ -123,7 +122,7 @@ if __name__ == "__main__":
     model_final.train()
 
     # 预处理数据集
-    with open('./dataset/alpaca_data-0-3252-中文-已完成.json', 'r') as file:
+    with open(args.train_file_path, 'r') as file:
         data = json.load(file)
     for item in tqdm(data):
         audio_file_path = item["path"]
@@ -135,15 +134,15 @@ if __name__ == "__main__":
     train_dataloader = load_data(data, batch)
     loss_fn = torch.nn.CrossEntropyLoss()
     vocab_size = tokenizer_llama.vocab_size
-    optimizer = torch.optim.AdamW(model_final.parameters(), lr=1e-5, eps=1e-7)
-    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, 10)
+    optimizer = torch.optim.AdamW(model_final.parameters(), lr=1e-5, eps=args.eps)
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, args.Epoch)
     
     loss_all = []
     num_batches = len(train_dataloader)
     tenth_epoch_batches = num_batches // 10  # 计算十分之一个epoch的batch数量
     # batch accumulation parameter
-    accum_iter = 32
-    for epoch in range(10):
+    accum_iter = args.accum_iter
+    for epoch in range(args.Epoch):
         print("Epoch:", epoch)
         for idx, (input_features, text_for_label) in enumerate(train_dataloader):
             
@@ -172,7 +171,7 @@ if __name__ == "__main__":
             loss = loss / accum_iter
             
             if (idx + 1) % tenth_epoch_batches == 0:
-                mini_epoch = (idx + 1) / tenth_epoch_batches
+                mini_epoch = tenth_epoch_batches / (idx + 1)
                 print(f"Epoch: {mini_epoch}  Loss: {loss}")
                 loss_all.append(loss.item())
             if loss == float('nan'):
@@ -187,7 +186,7 @@ if __name__ == "__main__":
         scheduler.step()
     
     # 保存模型
-    save_dir = "./saved_model"
+    save_dir = args.save_dir
     save_model(model_final, model_lora, save_dir)
     # 将loss_all保存为JSON文件
     with open('loss_all.json', 'w') as f:
