@@ -63,24 +63,24 @@ class multi_model(nn.Module):
         return final_output
 
 
-if __name__ == "__main__":
-    device = "cuda:0"
-    path_llama = "Llama-2-7b-chat-hf"
+def inference(args):
+    device = args.device
+    path_llama = args.llama_path
     model_llama = AutoModelForCausalLM.from_pretrained(path_llama, torch_dtype=torch.float16).to(device)
     llama_embedding = model_llama.get_input_embeddings().to(device)
     tokenizer_llama = AutoTokenizer.from_pretrained(path_llama)
     
-    path_whisper = "whisper-large-v3-turbo"
+    path_whisper = args.whisper_path
     model_whisper_encoder = AutoModelForSpeechSeq2Seq.from_pretrained(
         path_whisper, torch_dtype=torch.float16, low_cpu_mem_usage=True, use_safetensors=True
     ).model.encoder.to(device)
     processor_whisper = AutoProcessor.from_pretrained(path_whisper)
 
-    lora_dir = "./saved_model/lora_weights"
+    lora_dir = args.save_dir + "/lora_weights"
     model_lora = PeftModel.from_pretrained(model_llama, lora_dir)
 
     # 加载multi_model可训练权重
-    model_state_path = "./saved_model/trainable_multi_model.pth"
+    model_state_path = args.save_dir + "/trainable_multi_model.pth"
     trainable_state_dict = torch.load(model_state_path)
 
     # 初始化multi_model
@@ -92,7 +92,7 @@ if __name__ == "__main__":
         batch_size = 1
         model_final.eval()
         
-        audio_file = "./dataset/audio/18.mp3"
+        audio_file = args.audio_file_path
         # 16.mp3
         array, _ = librosa.load(audio_file, sr=16000)
         input_features = processor_whisper(array, sampling_rate=16000, return_tensors="pt").input_features.to(torch.float16).to(device)
@@ -110,4 +110,4 @@ if __name__ == "__main__":
         # print("问题开始", input_embedding_user_prefix)
         # print("回答开始", input_embedding_assistant_prefix)
         
-        print(tokenizer_llama.batch_decode(model_lora.generate(inputs_embeds=final_input, do_sample=False, max_new_tokens=100)))
+        print(tokenizer_llama.batch_decode(model_lora.generate(inputs_embeds=final_input, do_sample=False, max_new_tokens=args.max_len)))
