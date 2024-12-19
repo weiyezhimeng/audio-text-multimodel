@@ -11,9 +11,10 @@ pip install -r requirements.txt
 
 ## 数据集以及模型训练结果
 ### 数据集路径
-- `/dataset`: 包含mp3文件和文本数据，mp3文件需要从[huggingface仓库]()获取。
+- `/dataset`: 包含mp3文件和文本数据，mp3文件需要从[huggingface仓库](https://huggingface.co/datasets/weiyezhimeng/audio-text-dataset)获取。
+我们的中文数据集从[这个仓库](https://github.com/hikariming/chat-dataset-baseline)获取。
 ### 模型训练结果
-- 我们的训练结果需要从[huggingface仓库]()获取。
+- 我们的训练结果需要从[huggingface仓库](https://huggingface.co/datasets/weiyezhimeng/audio-text-dataset)获取。
 
 ## 训练代码
 ```bash
