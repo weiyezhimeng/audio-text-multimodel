@@ -55,5 +55,6 @@ for item in tqdm(data):
     all_cer += cer 
 print(all_cer/all_data_length)
 
+# 结果仅为0.15300419891865394
 
 
