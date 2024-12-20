@@ -13,7 +13,7 @@ pip install -r requirements.txt
 cd web_app
 python app.py
 ```
-启动成功后在本地浏览器输入http://127.0.0.1:5000/static/index.html即可进入对话
+启动成功后在本地浏览器输入 http://127.0.0.1:5000/static/index.html 即可进入对话。
 # Part2
 ## 环境配置
 ```bash
