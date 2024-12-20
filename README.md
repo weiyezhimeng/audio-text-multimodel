@@ -16,7 +16,11 @@ python app.py
 启动成功后在本地浏览器输入 http://127.0.0.1:5000/static/index.html 即可进入对话。
 
 ## 演示视频
-<video src="./演示demo.mp4"></video>
+<div align="center">
+
+https://github.com/patrickrchao/JailbreakingLLMs/assets/17835095/d6b68d1a-b16a-4ade-b339-bab9f4a66f69
+
+</div>
 
 # Part2
 ## 环境配置
