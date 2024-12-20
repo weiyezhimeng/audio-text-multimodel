@@ -18,7 +18,7 @@ python app.py
 ## 演示视频
 <div align="center">
 
-https://github.com/weiyezhimeng/audio-text-multimodel/blob/main/%E6%BC%94%E7%A4%BAdemo.mp4
+https://github.com/user-attachments/assets/d0f21b9a-ea0d-4af2-ae6e-c5dc1b8ddb82
 
 </div>
 
