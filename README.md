@@ -14,6 +14,9 @@ cd web_app
 python app.py
 ```
 启动成功后在本地浏览器输入 http://127.0.0.1:5000/static/index.html 即可进入对话。
+
+## 演示视频
+<video src="./演示_demo.mp4"></video>
 # Part2
 ## 环境配置
 ```bash
