@@ -18,7 +18,7 @@ python app.py
 ## 演示视频
 <div align="center">
 
-https://github.com/patrickrchao/JailbreakingLLMs/assets/17835095/d6b68d1a-b16a-4ade-b339-bab9f4a66f69
+https://github.com/weiyezhimeng/audio-text-multimodel/blob/main/%E6%BC%94%E7%A4%BAdemo.mp4
 
 </div>
 
