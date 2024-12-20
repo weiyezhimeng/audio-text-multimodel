@@ -17,6 +17,7 @@ python app.py
 
 ## 演示视频
 <video src="./演示demo.mp4"></video>
+
 # Part2
 ## 环境配置
 ```bash
