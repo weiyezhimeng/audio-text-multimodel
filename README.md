@@ -2,7 +2,18 @@
 ## 概述
 该仓库前半部分为whisper做asr后输入LLM的结果。后半部分结合[openai/whisper-large-v3-turbo](https://huggingface.co/openai/whisper-large-v3-turbo)模型和[meta-llama/Llama-2-7b-chat-hf](https://huggingface.co/meta-llama/Llama-2-7b-chat-hf)模型，完成一个简单的语音文本多模态大模型的训练，由于训练数据和显卡的限制，后半部分仅作示范。
 # Part1
-
+## 环境配置
+```bash
+conda create -n multi python=3.10
+conda activate multi
+pip install -r requirements.txt
+```
+## 启动代码
+```bash
+cd web_app
+python app.py
+```
+启动成功后在本地浏览器输入http://127.0.0.1:5000/static/index.html即可进入对话
 # Part2
 ## 环境配置
 ```bash
